@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Your JavaScript code here
+   
+    // Update remaining points for Blue castle
+   
+
+
     
    // Function to update the castle cell with the warrior image
    function updateCastleCell(castle, warriorType) {
@@ -36,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Append the warrior image to the castle cell
     castleCell.appendChild(warriorImage);
+    
 }
 
     
@@ -95,6 +100,9 @@ function handleTrainingButtonClick(castle, player) {
     const selectElement = document.getElementById(`${player}-warrior`);
     const selectedWarrior = selectElement.value;
     trainWarrior(castle, selectedWarrior);
+    document.getElementById("blue-castle-points").textContent = ` - Remaining Points: ${castle.resources}`;
+    document.getElementById("red-castle-points").textContent = ` - Remaining Points: ${castle.resources}`;
+
 }
 
 function moveWarriorsFromTrainingToCastle(castle) {
@@ -115,6 +123,17 @@ function moveWarriorsFromTrainingToCastle(castle) {
         return 1
     });
 }
+    function adding_esseources(blueCastle,redCastle){
+        blueCastle.accumulateResource();
+        redCastle.accumulateResource();
+        const bCastle = '<span style="color: blue;">Blue</span>'  ;
+        const rcastle= '<span style="color: red;">Red</span>'
+        displayMessage(`Castle ${bCastle} accumulated an additional resource. Total resources: ${blueCastle.resources}.`);
+        displayMessage(`Castle ${rcastle} accumulated an additional resource. Total resources: ${redCastle.resources}.`);
+        document.getElementById("blue-castle-points").textContent = ` - Remaining Points: ${blueCastle.resources}`;
+        document.getElementById("red-castle-points").textContent = ` - Remaining Points: ${redCastle.resources}`;
+      
+    }
 
 
 // Function to start the attack sequence
@@ -124,10 +143,11 @@ function sleep(ms) {
 }
 
 async function startAttackSequence(blueCastle, redCastle) {
-
+  
     
     const redCastleCell = document.querySelector(`.${redCastle.color}-castle-cell`);
     const blueCastleCell = document.querySelector(`.${blueCastle.color}-castle-cell`);
+   
 
     var c1=moveWarriorsFromTrainingToCastle(redCastle);
     var c2=moveWarriorsFromTrainingToCastle(blueCastle);
@@ -193,6 +213,7 @@ async function startAttackSequence(blueCastle, redCastle) {
                         blueCastleCellAfterBlueAttack.appendChild(image);
                     }
                 });
+                adding_esseources(blueCastle,redCastle)
                 return 0;
             }
 
@@ -277,6 +298,7 @@ async function startAttackSequence(blueCastle, redCastle) {
                         blueCastleCellAfterBlueAttack.appendChild(image);
                     }
                 });
+                adding_esseources(blueCastle,redCastle)
                 return 0;
             }
 
@@ -307,7 +329,12 @@ async function startAttackSequence(blueCastle, redCastle) {
             }
            
         });
+       
+
     }
+    adding_esseources(blueCastle,redCastle)
+
+        
 }
 
 
@@ -342,6 +369,9 @@ function removeDefeatedWarrior(castle, warrior) {
     function initializeGame() {
         const blueCastle = new Castle("blue");
         const redCastle = new Castle("red");
+        document.getElementById("blue-castle-points").textContent = ` - Remaining Points: ${blueCastle.resources}`;
+        document.getElementById("red-castle-points").textContent = ` - Remaining Points: ${redCastle.resources}`;
+      
 
         // Event listeners for player 1 and player 2 training buttons
         document.getElementById("player1-train").addEventListener("click", () => handleTrainingButtonClick(blueCastle, "player1"));
