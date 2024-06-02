@@ -110,8 +110,11 @@ function handleTrainingButtonClick(castle, player) {
     const selectElement = document.getElementById(`${player}-warrior`);
     const selectedWarrior = selectElement.value;
     trainWarrior(castle, selectedWarrior);
-    document.getElementById("blue-castle-points").textContent = ` - Remaining Points: ${castle.resources}`;
-    document.getElementById("red-castle-points").textContent = ` - Remaining Points: ${castle.resources}`;
+    if (castle.color=='red')
+        document.getElementById("red-castle-points").textContent = ` - Remaining Points: ${castle.resources}`;
+    else
+        document.getElementById("blue-castle-points").textContent = ` - Remaining Points: ${castle.resources}`;
+    
 
 }
 

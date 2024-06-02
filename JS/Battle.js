@@ -9,7 +9,6 @@ function updateBattleElements() {
 async function removeDefeatedWarrior(castle, warrior) {
 
 
-
     if (!warrior.isAlive()) {
        
         castle.warriors = castle.warriors.filter(war => war.id !== warrior.id);
@@ -119,19 +118,15 @@ async function startAttackSequence(blueCastle, redCastle) {
     var blueTrainingCell = document.querySelector(`.${blueCastle.color}-castle-training.cell`);
     const coloredBlueCastle = '<span style="color: blue;">Blue</span>';
     const coloredRedCastle = '<span style="color: red;">Red</span>';
-    var c1=moveWarriorsFromTrainingToCastle(redCastle);
-    var c2=moveWarriorsFromTrainingToCastle(blueCastle);
+    moveWarriorsFromTrainingToCastle(redCastle);
+    moveWarriorsFromTrainingToCastle(blueCastle);
    
-    if (c1==1 || c2==1){
-    await sleep(1000);
-    }
-    
     if (countWarriors('red')==0 && countWarriors('blue')==0) {
         displayMessage("Both castle cells are empty. Place your warriors.");
     } else if (countWarriors('red')==0) {
-        endGame('blue', 'red', blueCastleCell, redCastleCell, middleCell, redTrainingCell);
+        await endGame('blue', 'red', blueCastleCell, redCastleCell, middleCell, redTrainingCell);
     } else if ((countWarriors('blue')==0)) {
-        endGame('red', 'blue', redCastleCell, blueCastleCell, middleCell, blueTrainingCell);
+        await endGame('red', 'blue', redCastleCell, blueCastleCell, middleCell, blueTrainingCell);
     } else {
         disableControlButtons()
         displayMessage("Beginning attack sequence...");
