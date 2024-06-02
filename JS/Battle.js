@@ -73,11 +73,11 @@ async function attacks_loop(targetCastleCell, attackerCastle, targetCastle, colo
         const AttackerCastleCell = document.querySelector(`.${attackerCastle.color}-castle-cell`);
         const warriorImages = AttackerCastleCell.querySelector("img");
 
-        if (Warrior.color=='blue'){
+        if (Warrior.color=='blue' && targetWarriorImage){
             middleCell.appendChild(warriorImages);
             middleCell.appendChild(targetWarriorImage);
         }
-        else{
+        else if (Warrior.color=='red' && targetWarriorImage){
             middleCell.appendChild(targetWarriorImage);
             middleCell.appendChild(warriorImages);
         }
