@@ -16,8 +16,8 @@ async function removeDefeatedWarrior(castle, warrior) {
         
         const cell = document.querySelector('.battle');
         const warriorImages = cell.querySelectorAll("img");
-        var removedImage = Array.from(warriorImages).find(image => image.alt.includes(warrior.color));
-        console.log(removedImage)
+        var removedImage = Array.from(warriorImages).find(image => (image.alt.includes(warrior.color)));
+        console.log(Array.from(warriorImages))
         if (removedImage) {
             removedImage.remove();
         } else {
@@ -66,11 +66,20 @@ function countWarriors(castleColor) {
 }
 
 async function attacks_loop(targetCastleCell, attackerCastle, targetCastle, coloredAttackerCastle, coloredTargetCastle, middleCell) {
+    const warriorIDsPicked = new Set();
     var targetWarriorImage = targetCastleCell.querySelector("img");
     for (let index = 0; index < attackerCastle.warriors.length; index++) {
         const Warrior = attackerCastle.warriors[index];
         const AttackerCastleCell = document.querySelector(`.${attackerCastle.color}-castle-cell`);
-        const warriorImages = AttackerCastleCell.querySelector("img");
+        let warriorImages;
+        let currentIndex = index;
+        do {
+            warriorImages = Array.from(AttackerCastleCell.querySelectorAll("img")).filter(img => img.alt.endsWith(` ${currentIndex}`))[0];
+            currentIndex++;
+        } while (!warriorImages  || warriorIDsPicked.has(currentIndex)); 
+        
+        warriorIDsPicked.add(currentIndex);
+        
 
         if (Warrior.color=='blue' && targetWarriorImage){
             middleCell.appendChild(warriorImages);
@@ -118,9 +127,12 @@ async function startAttackSequence(blueCastle, redCastle) {
     var blueTrainingCell = document.querySelector(`.${blueCastle.color}-castle-training.cell`);
     const coloredBlueCastle = '<span style="color: blue;">Blue</span>';
     const coloredRedCastle = '<span style="color: red;">Red</span>';
-    moveWarriorsFromTrainingToCastle(redCastle);
-    moveWarriorsFromTrainingToCastle(blueCastle);
-   
+    var c1=moveWarriorsFromTrainingToCastle(redCastle);
+    var c2=moveWarriorsFromTrainingToCastle(blueCastle);
+    if (c1==1 || c2==1){
+        await sleep(500);
+    }
+    
     if (countWarriors('red')==0 && countWarriors('blue')==0) {
         displayMessage("Both castle cells are empty. Place your warriors.");
     } else if (countWarriors('red')==0) {

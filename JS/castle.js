@@ -96,7 +96,10 @@ function trainWarrior(castle, warriorType) {
 
 
     if (castle.setTeam([warrior])) {
-        updateCastleCell(castle, warriorType); 
+        const castleCell = document.querySelector(`.${castle.color}-castle-training`);
+        updateCastleCell(castle, warriorType);
+        castleCell.lastChild.alt=castleCell.lastChild.alt+' '+warrior.id;
+        console.log(castleCell)
         const coloredCastle = castle.color === 'blue' ? '<span style="color: blue;">Blue</span>' : '<span style="color: red;">Red</span>';
         const message = `Trained ${coloredCastle} ${warriorType} with ID ${warrior.id} successfully at Castle ${coloredCastle}, Remaining resources after training: ${castle.resources}.`;
         displayMessage(message);

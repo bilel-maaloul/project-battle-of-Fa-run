@@ -39,8 +39,8 @@ class Warrior {
 
 
 Warrior.idCounters = {
-  "blue": 1,
-  "red": 1
+  "blue": 0,
+  "red": 0
 };
 
   
